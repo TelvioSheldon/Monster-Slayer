@@ -23,9 +23,10 @@ const app = Vue.createApp({
         attackMonster(){
             const attackValue = getRandom(5,12)
             this.monsterHealth -= attackValue;
+            this.attackPlayer()
             this.currentRound++
             this.addLogMessage('Player','attack', attackValue)
-            this.attackPlayer()
+            
         },
         attackPlayer(){
             const attackValue = getRandom(8,15)
@@ -65,14 +66,15 @@ const app = Vue.createApp({
 
     computed: {
         playerHealthBar(){
-            if(this.playerHealthBar < 0)
+            
+            if(this.playerHealth < 0)
                 return {width: '0%'}
             else 
                 return {width: this.playerHealth+'%'}    
         },
 
         monsterHealthBar(){
-            if(this.monsterHealthBar < 0)
+            if(this.monsterHealth < 0)
                 return {width: '0%'}
             else 
                 return {width: this.monsterHealth+'%'}
@@ -90,7 +92,7 @@ const app = Vue.createApp({
     
     watch:{
         playerHealth(value){
-            if(this.monsterHealth<=0 && value==0)
+            if(this.monsterHealth<=0 && value<=0)
                 this.winner='draw'
 
             else if(value <=0 )
@@ -98,7 +100,7 @@ const app = Vue.createApp({
         },
 
         monsterHealth(value){
-            if(this.playerHealth<=0 && value==0)
+            if(this.playerHealth<=0 && value<=0)
                 this.winner='draw'
 
             else if(value <=0 )
